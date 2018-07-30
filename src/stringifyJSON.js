@@ -23,6 +23,7 @@ var stringifyJSON = function(obj) {
     output += obj;
   } else if (obj === null) {
     output = 'null';
+// Judge the array
   } else if (Array.isArray(obj)) {
     if (obj.length === 0) {
       return '[]'
@@ -34,19 +35,18 @@ var stringifyJSON = function(obj) {
     });
     output = output.substring(0,output.length-1);
     output += ']'
-  } else if (typeof obj === 'object') {
-    // if (typeof obj === 'function' || typeof obj === undefined) {
-    // output = ''
-    // }
+// Judge the obj
+    } else if (typeof obj === 'object') {
     var key = Object.keys(obj);
     var value = Object.values(obj);
     if(Object.keys(obj).length === 0) {
       return '{}';
     } 
+    var testForFunctionOrUndefined = false;
     output += '{'
     key.forEach(function(element){
-      if (typeof obj === 'function' || typeof obj === undefined) {
-        output = ''
+      if (typeof obj[element] === 'function' || typeof obj[element] === undefined) {
+        testForFunctionOrUndefined = true;
       }
       output += stringifyJSON(element);
       output += ':';
@@ -54,8 +54,10 @@ var stringifyJSON = function(obj) {
       output += ',';     
     })
       output = output.substring(0,output.length-1);
-      output += '}'  
+      output += '}'
+    if(testForFunctionOrUndefined){
+      return '{}'; 
+    }
   } 
-console.log(obj, output)
   return output;
 };
