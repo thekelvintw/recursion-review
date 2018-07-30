@@ -15,6 +15,9 @@ var stringifyJSON = function(obj) {
   if (typeof obj === 'number') {
     output += obj;
   } else if (typeof obj === 'string') {
+    if (obj === 'functions' || obj === 'undefined') {
+      return '';
+    }
     output += `"${obj}"`;
   }else if (typeof obj === 'boolean') {
     output += obj;
@@ -31,7 +34,28 @@ var stringifyJSON = function(obj) {
     });
     output = output.substring(0,output.length-1);
     output += ']'
-  }
-  console.log('line 28', output)
+  } else if (typeof obj === 'object') {
+    // if (typeof obj === 'function' || typeof obj === undefined) {
+    // output = ''
+    // }
+    var key = Object.keys(obj);
+    var value = Object.values(obj);
+    if(Object.keys(obj).length === 0) {
+      return '{}';
+    } 
+    output += '{'
+    key.forEach(function(element){
+      if (typeof obj === 'function' || typeof obj === undefined) {
+        output = ''
+      }
+      output += stringifyJSON(element);
+      output += ':';
+      output += stringifyJSON(obj[element]);
+      output += ',';     
+    })
+      output = output.substring(0,output.length-1);
+      output += '}'  
+  } 
+console.log(obj, output)
   return output;
 };
