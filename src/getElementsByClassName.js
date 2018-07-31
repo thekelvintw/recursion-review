@@ -5,12 +5,13 @@
 
 //Strategy
 //  declare output array = [];
-//  search div if it has a className
+//  search body if it has a className
 //  if the className === targetClassName
-//     output.push(div);
-//  search if the div has childNodes.length > 0
-//     forEach
-//        recursion
+//     output.push(body);
+// loop through the body children
+    // if the children div has className, push
+    // it the children has deeper childen
+    // recursion
 //  return output array;
 
 // But instead we're going to implement it from scratch:
